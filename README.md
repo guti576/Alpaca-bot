@@ -1,0 +1,5 @@
+Para lanzar en VPS: nohup python -u bot.py &
+Buscar el proceso: ps aux | grep bot.py
+Parar el proceso: kill XXXXXX
+Ver registro de logs: tail -n 100  nohup.out
+Activar .venv: source .venv/bin/activate
