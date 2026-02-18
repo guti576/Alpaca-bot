@@ -17,7 +17,11 @@ SECRET_KEY = "G1Ag2nzs6cFosZvBRp1QKTFLvw5nYBvNidn1W8Em9zNE"
 BASE_URL = 'https://paper-api.alpaca.markets'
 CSV_FILENAME = 'trading_journal_monitor.csv'
 
-SYMBOLS = ['BTC/USD', 'ETH/USD', 'SOL/USD']
+SYMBOLS = [
+    'BTC/USD', 'ETH/USD', 'SOL/USD', 
+    'AVAX/USD', 'LINK/USD', 'LTC/USD', 'MATIC/USD'
+]
+
 TIMEFRAME_STRATEGY = TimeFrame.Hour
 USD_PER_TRADE = 1000.0 
 
@@ -76,6 +80,9 @@ def monitor_position(symbol, current_price):
             reason = f"TAKE_PROFIT (+4%) | Ent: {entry_price:.2f} -> Act: {current_price:.2f}"
         elif current_price <= sl_price:
             reason = f"STOP_LOSS (-2%) | Ent: {entry_price:.2f} -> Act: {current_price:.2f}"
+        else:
+            current_time = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+            print(f"{current_time} - No SL ni TP alcanzado en {symbol}...")
             
         # Si hay razón para salir, vendemos
         if reason:
@@ -126,7 +133,8 @@ def calculate_indicators(df):
 
 def run_strategy_analysis(symbol):
     """Busca entradas solo si la vela de 1H acaba de cerrar"""
-    print(f"🔎 Analizando estrategia 1H para {symbol}...")
+    current_time = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+    print(f"{current_time} - 🔎 Analizando estrategia 1H para {symbol}...")
     
     # 1. Comprobar si ya tenemos posición (para no comprar doble)
     try:
@@ -156,7 +164,11 @@ def run_strategy_analysis(symbol):
         
         # Calcular Cantidad
         raw_qty = USD_PER_TRADE / current_price
-        qty = round(raw_qty, 2)
+        
+        if current_price >= 1:
+            qty = round(raw_qty, 2)
+        else:
+            qty = round(raw_qty, 0) # Alpaca suele pedir enteros para monedas < $1
         
         print(f"✅ SEÑAL DE COMPRA: {symbol} a {current_price}")
         
@@ -172,7 +184,7 @@ def run_strategy_analysis(symbol):
             'details': 'EMA+MACD Signal'
         })
     else:
-        print("No se cumplen los requsitos de entrada...")
+        print(f"No se cumplen los requisitos de entrada...")
 
 # ---------------------------------------------------------
 # 3. GESTOR DE EVENTOS (Orquestador)

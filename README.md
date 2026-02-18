@@ -1,6 +1,7 @@
 - git pull origin main
 - cd Alpaca bot
 - source .venv/bin/activate
+- rm nohup.out
 - Para lanzar en VPS: nohup python -u bot.py &
 - Buscar el proceso: ps aux | grep bot.py
 - Parar el proceso: kill XXXXXX
