@@ -184,7 +184,7 @@ def run_strategy_analysis(symbol):
             'details': 'EMA+MACD Signal'
         })
     else:
-        print(f"No se cumplen los requisitos de entrada...")
+        print(f"Uptrend:{is_uptrend} | MACD crossover {macd_crossover} | Pullback {is_pullback} - No se cumplen los requisitos de entrada...")
 
 # ---------------------------------------------------------
 # 3. GESTOR DE EVENTOS (Orquestador)
