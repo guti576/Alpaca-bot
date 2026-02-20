@@ -101,7 +101,7 @@ def log_to_csv(data_dict):
 # ---------------------------------------------------------
 def get_historical_data(symbol):
     # Pedimos 20 días para asegurar el cálculo correcto de la EMA 200
-    start_time = datetime.now(timezone.utc) - timedelta(days=20)
+    start_time = datetime.now(timezone.utc) - timedelta(days=50)
     req = StockBarsRequest(symbol_or_symbols=[symbol], timeframe=TIMEFRAME_STRATEGY, start=start_time, limit=1000)
     bars = data_client.get_stock_bars(req)
     df = bars.df
@@ -199,8 +199,8 @@ async def bar_handler(data):
     if symbol not in last_processed_hour or last_processed_hour[symbol] != current_hour:
         last_processed_hour[symbol] = current_hour
         
-        # Pausa para evitar exceder el rate-limit de la API al consultar 50 acciones de golpe
-        await asyncio.sleep(2) 
+        # Pausa para evitar exceder el rate-limit de la API al consultar acciones de golpe
+        await asyncio.sleep(3) 
         try:
             run_strategy_analysis(symbol)
         except Exception as e:
