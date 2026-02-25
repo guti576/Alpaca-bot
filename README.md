@@ -1,3 +1,4 @@
+- cd Alpaca-bot
 - git pull origin main
 - cd Alpaca bot
 - source .venv/bin/activate
