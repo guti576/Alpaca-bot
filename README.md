@@ -3,6 +3,7 @@
 - source .venv/bin/activate
 - rm nohup.out
 - Para lanzar en VPS: nohup python -u bot.py &
+- Para lanzar en VPS y redirigir la salida: nohup python -u EMA_MACD_strategy_stocks.py > stocks_bot.log 2>&1 &
 - Buscar el proceso: ps aux | grep bot.py
 - Parar el proceso: kill XXXXXX
 - Ver registro de logs: tail -n 100  nohup.out

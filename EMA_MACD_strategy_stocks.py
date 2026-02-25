@@ -150,7 +150,7 @@ def run_strategy_analysis(symbol):
     macd_crossover = (prev['macd'] < prev['signal']) and (curr['macd'] > curr['signal'])
     is_pullback = curr['macd'] < 0
     
-    if is_uptrend and macd_crossover:# and is_pullback:
+    if is_uptrend and macd_crossover and is_pullback:
         current_price = curr['close']
         
         # Cantidad en números enteros para acciones por seguridad con brackets
